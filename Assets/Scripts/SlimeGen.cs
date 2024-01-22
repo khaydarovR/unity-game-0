@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,11 +21,20 @@ public class SlimeGen : MonoBehaviour, IDamagable
             if (value < 0)
             {
                 _hp = 0;
+                Die();
             }
             if (value > 100)
             {
                 _hp = 100;
             }
+        }
+    }
+
+    private void Die()
+    {
+        if (this?.gameObject != null)
+        {
+            Destroy(this.gameObject);
         }
     }
 

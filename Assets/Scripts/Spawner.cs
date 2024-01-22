@@ -5,15 +5,16 @@ using UnityEngine;
 public class Spawner : MonoBehaviour
 {
     [SerializeField] private GameObject spawnObj;
-    [SerializeField] private float maxCount = 5;
-    [SerializeField] private float timeDelaySec;
-    [SerializeField] private float spawnRadius;
+    [SerializeField] private float maxCount = 1;
+    [SerializeField] private float minDelaySec = 1;
+    [SerializeField] private float maxDelaySec = 10;
+    [SerializeField] private float spawnRadius = 10;
     int objCount = 0;
     private float timer = 0;
 
     void Start()
     {
-        timer = timeDelaySec;
+        timer = Random.Range(minDelaySec, maxDelaySec);
     }
 
     // Update is called once per frame
@@ -25,7 +26,7 @@ public class Spawner : MonoBehaviour
         {
             CreateObject();
 
-            timer = timeDelaySec;
+            timer = Random.Range(minDelaySec, maxDelaySec);
         }
     }
 
