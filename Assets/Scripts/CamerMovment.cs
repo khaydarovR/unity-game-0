@@ -4,27 +4,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class CamerMover : MonoBehaviour
+
+public class CamerMovment : MonoBehaviour
 {
-    [Header("Object for fololwing")]
+    public float cameraSpeed = 3f;
 
-    [Header("Camera settings")]
-    [SerializeField] private float _speed;
-    [SerializeField] private float _height;
-    [SerializeField] private float _rareDistance;
-
-    private Vector3 currentVector;
-
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-
+  
     }
 
-    // Update is called once per frame
     void Update()
     {
+        if (Input.GetMouseButton(0))
+        {
+            // Перемещение камеры
+            float horizontal = Input.GetAxis("Mouse X") * cameraSpeed;
+            float vertical = Input.GetAxis("Mouse Y") * cameraSpeed;
+
+            transform.Translate(-horizontal, -vertical, 0);         
+        }
+        
     }
-
-
 }
