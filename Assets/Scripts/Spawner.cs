@@ -2,39 +2,48 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Spawner : MonoBehaviour
 {
-    [SerializeField] private GameObject spawnObj;
-    [SerializeField] private float maxCount = 1;
-    [SerializeField] private float minDelaySec = 1;
-    [SerializeField] private float maxDelaySec = 10;
+    [SerializeField] private List<GameObject> spawnObjs;
+    [SerializeField] private List<int> waveEnemyCount;
     [SerializeField] private float spawnRadius = 10;
-    int objCount = 0;
-    private float timer = 0;
+    [SerializeField] private int waveDelaySec = 10;
+
+    int waveObjCount = 0;
+    int currentWaveCount = 0;
 
     void Start()
     {
-        timer = Random.Range(minDelaySec, maxDelaySec);
+        StartCoroutine(StartWaves());
     }
 
-    // Update is called once per frame
     void Update()
     {
-        timer -= Time.deltaTime;
 
-        if (timer <= 0 && objCount < maxCount)
-        {
-            CreateObject();
-
-            timer = Random.Range(minDelaySec, maxDelaySec);
-        }
     }
 
-    private void CreateObject()
+    IEnumerator StartWaves()
     {
-        Vector3 randomPos = transform.position + Random.insideUnitSphere * spawnRadius;
-        randomPos.y = transform.position.y;
-        Instantiate(spawnObj, randomPos, Quaternion.identity);
-        objCount++;
+        while (currentWaveCount < waveEnemyCount.Count)
+        {
+            CreateObjects(currentWaveCount);
+            currentWaveCount++;
+            yield return new WaitForSeconds(waveDelaySec);
+        }
+        yield return null;
+    }
+
+    private void CreateObjects(int wave)
+    {
+        while (waveObjCount < waveEnemyCount[wave])
+        {
+            Vector3 randomPos = transform.position + Random.insideUnitSphere * spawnRadius;
+            randomPos.y = transform.position.y;
+            var randNum = Random.Range(0, spawnObjs.Count);
+            Instantiate(spawnObjs[randNum], randomPos, Quaternion.identity);
+            waveObjCount++;
+        }
+        waveObjCount = 0;
     }
 }

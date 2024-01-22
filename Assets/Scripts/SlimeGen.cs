@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -11,6 +12,8 @@ public class SlimeGen : MonoBehaviour, IDamagable
     [SerializeField] private int _hp  = 100;
     [SerializeField] private int _manaPerSec  = 1;
     [SerializeField] private int _maxMana  = 10;
+
+    private bool isDie = false;
 
     public int HP
     {
@@ -32,11 +35,13 @@ public class SlimeGen : MonoBehaviour, IDamagable
 
     private void Die()
     {
-        if (this?.gameObject != null)
+        if (isDie == false)
         {
-            Destroy(this.gameObject);
+            Destroy(this?.gameObject);
         }
+        isDie = true;
     }
+
 
     public int Mana
     {
